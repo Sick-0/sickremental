@@ -1,38 +1,230 @@
 .App {
-  text-align: center;
+    background-color: #282c34;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    flex: 1;
+    align-items: stretch
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.Header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #282c34;
+    flex-direction: column;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    height: 50px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.Footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #282c34;
+    flex-direction: column;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    height: 50px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.Wrapper{
+    min-height: 100vh;
+    background: #ccc;
+    display: flex;
+    flex-direction: column;
+}
+.Columns{
+    display: flex;
+    flex:1;
+    background-image: url('./resources/bg.jpg');
+}
+.EvoPoints{
+    display: flex;
+    flex: 1;
+    order: 2;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
-.App-link {
-  color: #61dafb;
+.EvoPointsText{
+    background-color: tomato;
+    padding: 15px;
+    margin: 10px;
+    line-height: 20px;
+    color: white;
+    font-weight: bold;
+    font-size: 2em;
+    text-align: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.EvoPointsSubText{
+
+    font-weight: bold;
+    font-size: 1em;
+    text-align: center;
 }
+
+
+.Clicker{
+    display: flex;
+    width: 20%;
+    order: 1;
+    align-items: center;
+    justify-content: center;
+}
+.Upgrades{
+    width: 30%;
+    order: 3;
+    align-items: center;
+    justify-content: center
+}
+
+.DaClicker{
+    margin: 75px;
+    height: auto;
+    max-width: 100%;
+    clip-path: polygon(50.28% 0.02%, 62.05% 0.26%, 68.59% 7.11%, 70.58% 29.85%, 70.62% 45.6%, 72.03% 56.41%, 75.22% 65.65%, 74.21% 84.91%, 66.58% 93.26%, 54.63% 97.73%, 41.75% 96.51%, 31.44% 90.94%, 26.05% 82.7%, 26.98% 69.17%, 32.62% 60.7%, 35.62% 48.8%, 36.53% 35.79%, 40.56% 12.45%);
+    shape-outside: polygon(50.28% 0.02%, 62.05% 0.26%, 68.59% 7.11%, 70.58% 29.85%, 70.62% 45.6%, 72.03% 56.41%, 75.22% 65.65%, 74.21% 84.91%, 66.58% 93.26%, 54.63% 97.73%, 41.75% 96.51%, 31.44% 90.94%, 26.05% 82.7%, 26.98% 69.17%, 32.62% 60.7%, 35.62% 48.8%, 36.53% 35.79%, 40.56% 12.45%);
+    transform: scale(1);
+
+    transition-duration: 0.5s;
+
+}
+
+
+.UpgradeBadge{
+    background-color: rgba(31, 25, 25, 0.17);
+    display: flex;
+    margin-top: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    color: #282c34;
+
+}
+.UpgradeBadgeImage {
+    max-width: 25%;
+    margin-right: 20px;
+
+}
+.DaClicker:hover {
+
+    transform: scale(1.1);
+
+    transition-duration: 0.5s;
+
+}
+.DaClicker:active {
+
+    transform: scale(1.5);
+
+    transition-duration: 0.1s;
+
+}
+
+@keyframes fallingLucky
+{
+    from {
+        top: -15%;
+        left: 50%;
+    }
+    to {
+        left: 15%;
+        top: 115%;
+    }
+}
+
+.Lucky {
+    position: fixed;
+    top: -15%;
+    left: 50%;
+    animation: 6s fallingLucky;
+}
+
+.LuckyImage {
+    max-width: 100px;
+    height: auto;
+    z-index:99;
+}
+
+@keyframes animatingClick
+{
+
+    from {
+        top: 50%;
+        left: 10%;
+        visibility: visible;
+    }
+    to {
+        left: 10%;
+        top: 30%;
+        visibility: visible;
+    }
+}
+
+.AnimateClick {
+    animation: animatingClick 1s;
+    z-index:99;
+    position: fixed;
+    visibility: hidden;
+}
+@media (max-width: 800px) {
+    .Columns {
+        flex: 100%;
+        max-width: 100%;
+        flex-direction: column;
+    }
+    .Header {
+        height: 20px;
+    }
+    .Clicker{
+        width: 100%;
+    }
+    .DaClicker{
+        height: 50%;
+        width: auto;
+        margin: 0;
+
+    }
+    .EvoPointsText{
+        font-size: 1em;
+    }
+    .Upgrades{
+        width: 100%;
+
+    }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media (max-width: 600px) {
+    .Columns {
+        flex: 100%;
+        max-width: 100%;
+        flex-direction: column;
+    }
+    .Header {
+        height: 20px;
+    }
+    .Clicker{
+        width: 100%;
+    }
+    .DaClicker{
+        height: 50%;
+        width: auto;
+        margin: 0;
+
+    }
+    .EvoPointsText{
+        font-size: 1em;
+    }
+    .Upgrades{
+        width: 100%;
+
+    }
+}
+/*TODO: RESPONSIVE SELECTORS FOR EACH ELEMENT*/

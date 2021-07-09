@@ -1,6 +1,39 @@
-# Getting Started with Create React App
+# Sickremental
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Incremental cookieclicker style game toi self improve on my react knowledge base.
+
+## the idea
+having an incremental game where you upgrade trough the stages of evolution.
+You will have the default clicker as well as upgrades, once you achieve enoug evolution points to transit to the next stage you will reset back to 1.
+
+### starting grounds
+One cell life just trying to get byuu.
+
+ - *CLICKER* = One Cell
+ - *Upgrade 1* = Sunlight
+ - *Upgrade 2* = Easy Food
+ - *Upgrade 3* = Currents
+ - *Upgrade 4* = Collaboration
+ - *Lucky Event* = Meteor
+ - *Unlucky Event* = Volcanic clouds
+
+### Early Ocean life
+MULTICELL life collaborating to success.
+
+- *CLICKER* = MULTI Cell
+- *Upgrade 1* = Lets get together 
+- *Upgrade 2* = Divide and conquer
+- *Upgrade 3* = Tight Clusters
+- *Upgrade 4* = Specialisations
+- *Lucky Event* = Life Burst
+- *Unlucky Event* = Separatist 
+
+### and so on trough stages, first two for testing then test increment with place holders
+
+//TODO: 
+- Random (un)lucky events
+- Mobile friendly design
+- EVO time
 
 ## Available Scripts
 
@@ -38,33 +71,3 @@ If you aren’t satisfied with the build tool and configuration choices, you can
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
