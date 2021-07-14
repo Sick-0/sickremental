@@ -1,56 +1,85 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Clicker from "./Clicker";
 import EvoPoints from "./EvoPoints";
 import Upgrades from "./Upgrades";
 import Lucky from "./Lucky";
+import useInterval from "../Helpers/useInterval";
 
 const LSKEY = "Sickremental";
 
-function useInterval(callback, delay) {
-    const savedCallback = useRef();
-
-    // Remember the latest callback.
-    useEffect(() => {
-        savedCallback.current = callback;
-    }, [callback]);
-
-    // Set up the interval.
-    useEffect(() => {
-        let id = setInterval(() => {
-            savedCallback.current();
-        }, delay);
-        return () => clearInterval(id);
-    }, [delay]);
-}
-
 const Game = () => {
-    let initState = 0;
-    if (window.localStorage.getItem(LSKEY + ".clicks")){
-        initState = parseInt(window.localStorage.getItem(LSKEY + ".clicks"));
-    }
-    const [amountClicked, setAmountClicked] = useState(initState);
-    const [upgrades, setUpgrades] = useState([
-        {id: 0, name: "sun", level: 0, price: 10, gain: 1},
-        {id: 1, name: "food", level: 0, price: 50, gain: 2},
-        {id: 2, name: "current", level: 0, price: 100, gain: 3},
-        {id: 3, name: "collaboration", level: 0, price: 200, gain: 4}
-    ]);
+    const [amountClicked, setAmountClicked] = useState(0);
+    const [upgrades, setUpgrades] = useState([ {
+        "id": 0,
+        "name": "sun",
+        "filename": "./images/upgrades/stage0/sun_upgrade.png",
+        "title": "Sunshine time",
+        "level": 0,
+        "price": 10,
+        "gain": 1
+    },
+        {
+            "id": 1,
+            "name": "food",
+            "filename": "./images/upgrades/stage0/food_upgrade.png",
+            "title": "Food bubbles!",
+            "level": 0,
+            "price": 50,
+            "gain": 2
+        },
+        {
+            "id": 2,
+            "name": "current",
+            "filename": "./images/upgrades/stage0/current_upgrade.png",
+            "title": "Strong Currents",
+            "level": 0,
+            "price": 100,
+            "gain": 3
+        },
+        {
+            "id": 3,
+            "name": "supercell",
+            "filename": "./images/upgrades/stage0/supercell_upgrade.png",
+            "title": "SuperCell!",
+            "level": 0,
+            "price": 200,
+            "gain": 4
+        }]);
     const [passiveTick, setPassiveTick] = useState(0);
     const [isLucky, setIsLucky] = useState(false);
     const [isLuckTrigger, setIsLuckTrigger] = useState(false);
+    const [gameStage, setGameStage] = useState(0);
+    const [gameSettings, setGameSettings] = useState({background: "", clicker: "", cutout: ""});
+    const [ownedUpgrades, setOwnedUpgrades] = useState([
+        {id: 0, amount: 0},
+        {id: 1, amount: 0},
+        {id: 2, amount: 0},
+        {id: 3, amount: 0}]);
+    //TODO: split of upgrades done do test tho ...
 
+
+    useEffect(() => {
+        if (window.localStorage.getItem(LSKEY + ".clicks")) {
+            setAmountClicked(parseInt(window.localStorage.getItem(LSKEY + ".clicks")));
+            setOwnedUpgrades(JSON.parse(window.localStorage.getItem(LSKEY + ".upgrades")));
+            setGameStage(parseInt(window.localStorage.getItem(LSKEY + ".stage")));
+        }
+    }, [])
 
     const buyUpgrade = (boughtUpgrade) => {
-        const upgradeIndex = upgrades.findIndex(el => el.id === boughtUpgrade);
-        let allUpgrades = [...upgrades];
-        if (allUpgrades[upgradeIndex].price <= amountClicked) {
-            setAmountClicked(amountClicked - allUpgrades[upgradeIndex].price);
-            allUpgrades[upgradeIndex] = {
-                ...allUpgrades[upgradeIndex],
-                level: allUpgrades[upgradeIndex].level + 1,
-                price: allUpgrades[upgradeIndex].price * 2
+        const ownedUpgradeIndex = ownedUpgrades.findIndex(el => el.id === boughtUpgrade.id);
+
+        let allOwnedUpgrades = [...ownedUpgrades];
+
+        let price = boughtUpgrade.price * allOwnedUpgrades[ownedUpgradeIndex].amount;
+
+        if (price <= amountClicked) {
+            setAmountClicked(amountClicked - price);
+            allOwnedUpgrades[ownedUpgradeIndex] = {
+                ...allOwnedUpgrades[ownedUpgradeIndex],
+                amount: allOwnedUpgrades[ownedUpgradeIndex].amount + 1
             };
-            setUpgrades(allUpgrades);
+            setOwnedUpgrades(allOwnedUpgrades);
         }
     };
 
@@ -69,13 +98,20 @@ const Game = () => {
         //TODO: refactor click to actually be clickable and remove itself on click plus stop animation start other animation
     }
 
+    const saveGame = () => {
+        window.localStorage.setItem(LSKEY + ".clicks", amountClicked);
+        window.localStorage.setItem(LSKEY + ".upgrades", JSON.stringify(ownedUpgrades));
+        window.localStorage.setItem(LSKEY + ".stage", gameStage)
+    }
+
     useEffect(() => {
         let passive = 0;
         upgrades.forEach(upgrade => {
-            passive += upgrade.level * upgrade.gain;
+            const ownedUpgradeIndex = ownedUpgrades.findIndex(el => el.id === upgrade.id);
+            passive += ownedUpgrades[ownedUpgradeIndex].amount * upgrade.gain;
         })
         setPassiveTick(passive);
-    }, [upgrades])
+    }, [upgrades,ownedUpgrades])
 
 
     useInterval(() => {
@@ -98,25 +134,54 @@ const Game = () => {
         }
     }, 3000);
 
+
+    const getUpgradeData = () => {
+
+        fetch('./data/upgrades.json'
+            , {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }
+        )
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (myJson) {
+                //TODO: HOW TO LOAD IN DEFAULT GAME DATA ?!!
+                setUpgrades(myJson[gameStage].upgrades);
+                setGameSettings({
+                    background: myJson[gameStage].background,
+                    clicker: myJson[gameStage].clicker,
+                    cutout: myJson[gameStage].cutout
+                })
+            });
+    }
+
     useEffect(() => {
-        window.localStorage.setItem(LSKEY + ".clicks", amountClicked);
-    }, [upgrades]);
-    //TODO: actually save upgrades as well sicco!
+        getUpgradeData()
+    }, [gameStage])
 
     return (
+        <>
+        <button className={"SaveButton"} onClick={() => saveGame()}>Save Game!</button>
         <section className="App">
-            <div className="Columns">
-                <Clicker clicked={() => setAmountClicked(amountClicked + 1)}/>
+
+            <div className="Columns" style={{backgroundImage: ' url(' + gameSettings.background + ')'}}>
+                <Clicker clicked={() => setAmountClicked(amountClicked + 1)} image={gameSettings.clicker}
+                         cutout={gameSettings.cutout}/>
 
                 <EvoPoints amount={amountClicked} passive={passiveTick}/>
 
-                <Upgrades upgrades={upgrades} buyUpgrade={buyUpgrade}/>
+                <Upgrades upgrades={upgrades} buyUpgrade={buyUpgrade} ownedUpgrades={ownedUpgrades} onStageClick={() => setGameStage(1)}/>
             </div>
             {isLuckTrigger ? <Lucky clicked={() => luckClick(isLucky)} lucky={isLucky}/> : <></>}
 
-
         </section>
+        </>
+
     );
 }
-
+//TODO: button components for the save game(hide in footer) and SET STAGE EVENT (APPEAR WHEN CONDITION MET)
 export default Game;

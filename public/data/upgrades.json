@@ -1,0 +1,94 @@
+[
+  {
+    "stage": 0,
+    "name": "Beginning of Life",
+    "nextStageCost": 10000,
+    "background": "./images/backgrounds/stage0_bg.jpg",
+    "clicker": "./images/clickers/onecell.png",
+    "cutout": "stage0CutOut",
+    "upgrades": [
+      {
+        "id": 0,
+        "name": "sun",
+        "filename": "./images/upgrades/stage0/sun_upgrade.png",
+        "title": "Sunshine time",
+        "level": 0,
+        "price": 10,
+        "gain": 1
+      },
+      {
+        "id": 1,
+        "name": "food",
+        "filename": "./images/upgrades/stage0/food_upgrade.png",
+        "title": "Food bubbles!",
+        "level": 0,
+        "price": 50,
+        "gain": 2
+      },
+      {
+        "id": 2,
+        "name": "current",
+        "filename": "./images/upgrades/stage0/current_upgrade.png",
+        "title": "Strong Currents",
+        "level": 0,
+        "price": 100,
+        "gain": 3
+      },
+      {
+        "id": 3,
+        "name": "supercell",
+        "filename": "./images/upgrades/stage0/supercell_upgrade.png",
+        "title": "SuperCell!",
+        "level": 0,
+        "price": 200,
+        "gain": 4
+      }
+    ]
+  },
+  {
+    "stage": 1,
+    "name": "Multi Cell",
+    "nextStageCost": 25000,
+    "background": "./images/backgrounds/stage1_bg.png",
+    "clicker": "./images/clickers/multicell.png",
+    "cutout": "stage1CutOut",
+    "upgrades": [
+      {
+        "id": 0,
+        "name": "collaboration",
+        "filename": "./images/upgrades/stage1/collaboration_upgrade.png",
+        "title": "Collaboration FTW!",
+        "level": 0,
+        "price": 10,
+        "gain": 1
+      },
+      {
+        "id": 1,
+        "name": "tightcluster",
+        "filename": "./images/upgrades/stage1/tightclusters_upgrade.png",
+        "title": "Thight Clusters",
+        "level": 0,
+        "price": 50,
+        "gain":2
+      },
+      {
+        "id": 2,
+        "name": "survivalist",
+        "filename": "./images/upgrades/stage1/survivalist_upgrade.png",
+        "title": "True Survivor",
+        "level": 0,
+        "price": 100,
+        "gain": 3
+      },
+      {
+        "id": 3,
+        "name": "specialisation",
+        "filename": "./images/upgrades/stage1/specialisation_upgrade.png",
+        "title": "Specialisation!",
+        "level": 0,
+        "price": 200,
+        "gain": 4
+      }
+    ]
+  }
+]

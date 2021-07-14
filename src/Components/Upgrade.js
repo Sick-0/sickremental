@@ -3,9 +3,9 @@ import React from 'react';
 const Upgrade = (props) => {
     return (
         <div className="UpgradeBadge" key={props.id}>
-            <img onClick={() => {props.buyUpgrade(props.id)}} src={props.name + "_upgrade.png"} className="UpgradeBadgeImage" alt={props.name}/>
+            <img alt={props.name} onClick={() => {props.buyUpgrade({id: props.id, price: props.price})}} src={props.fileName} className="UpgradeBadgeImage" />
             <div className="UpgradeText">
-            <p>{props.name.charAt(0).toUpperCase() + props.name.slice(1)} (+{props.gain}/s)</p>
+            <p>{props.title} (+{props.gain}/s)</p>
             <code>Amount: {props.level} giving {props.gain * props.level}/s</code> <br/>
             <code>Price: {props.price}</code> <br/>
             </div>

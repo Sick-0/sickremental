@@ -39,7 +39,7 @@ const Clicker = (props) => {
         setAnimatedClicks(temparr);
     }, 1000);
 
-
+//TODO: pas x en y aan naar de actual location
     return (
         <div className="Clicker" >
             {
@@ -47,7 +47,7 @@ const Clicker = (props) => {
                     return <AnimatedClick x={click.startPosX} y={click.startPosY}/>
                 }) : <></>
             }
-            <img alt='click here ya stupid ;)' onClick={() => {props.clicked(); clickHandle();}} className="DaClicker" src="./onecell.png"/>
+            <img alt='click here ya stupid ;)' onClick={() => {props.clicked(); clickHandle();}} className={`DaClicker ${props.cutout}`} src={props.image}/>
         </div>
     );
 };
