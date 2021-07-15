@@ -6,17 +6,23 @@ import Lucky from "./Lucky";
 import useInterval from "../Helpers/useInterval";
 
 const LSKEY = "Sickremental";
+const initOwnedUpgrades = [
+    {id: 0, amount: 0, isLocked: false},
+    {id: 1, amount: 0, isLocked: true},
+    {id: 2, amount: 0, isLocked: true},
+    {id: 3, amount: 0, isLocked: true}];
 
 const Game = () => {
     const [amountClicked, setAmountClicked] = useState(0);
-    const [upgrades, setUpgrades] = useState([ {
+    const [upgrades, setUpgrades] = useState([{
         "id": 0,
         "name": "sun",
         "filename": "./images/upgrades/stage0/sun_upgrade.png",
         "title": "Sunshine time",
         "level": 0,
         "price": 10,
-        "gain": 1
+        "gain": 1,
+        "minOwned": 20
     },
         {
             "id": 1,
@@ -25,7 +31,8 @@ const Game = () => {
             "title": "Food bubbles!",
             "level": 0,
             "price": 50,
-            "gain": 2
+            "gain": 2,
+            "minOwned": 10
         },
         {
             "id": 2,
@@ -34,7 +41,8 @@ const Game = () => {
             "title": "Strong Currents",
             "level": 0,
             "price": 100,
-            "gain": 3
+            "gain": 3,
+            "minOwned": 5
         },
         {
             "id": 3,
@@ -43,18 +51,16 @@ const Game = () => {
             "title": "SuperCell!",
             "level": 0,
             "price": 200,
-            "gain": 4
+            "gain": 4,
+            "minOwned": 2
         }]);
     const [passiveTick, setPassiveTick] = useState(0);
     const [isLucky, setIsLucky] = useState(false);
     const [isLuckTrigger, setIsLuckTrigger] = useState(false);
     const [gameStage, setGameStage] = useState(0);
+    const [isNextStageUnlocked, setIsNextStageUnlocked] = useState(false);
     const [gameSettings, setGameSettings] = useState({background: "", clicker: "", cutout: ""});
-    const [ownedUpgrades, setOwnedUpgrades] = useState([
-        {id: 0, amount: 0},
-        {id: 1, amount: 0},
-        {id: 2, amount: 0},
-        {id: 3, amount: 0}]);
+    const [ownedUpgrades, setOwnedUpgrades] = useState(initOwnedUpgrades);
     //TODO: split of upgrades done do test tho ...
 
 
@@ -73,6 +79,7 @@ const Game = () => {
         let allOwnedUpgrades = [...ownedUpgrades];
 
         let price = boughtUpgrade.price * (allOwnedUpgrades[ownedUpgradeIndex].amount < 1 ? 0.5 : allOwnedUpgrades[ownedUpgradeIndex].amount);
+        let minOwned = boughtUpgrade.minOwned;
 
         if (price <= amountClicked) {
             setAmountClicked(amountClicked - price);
@@ -80,7 +87,21 @@ const Game = () => {
                 ...allOwnedUpgrades[ownedUpgradeIndex],
                 amount: allOwnedUpgrades[ownedUpgradeIndex].amount + 1
             };
+            //TODO fix this hardcoded +1 to unlock next upgrade
+            console.log(allOwnedUpgrades[ownedUpgradeIndex].amount + " " + minOwned);
+            console.log(allOwnedUpgrades[ownedUpgradeIndex]);
+            if (allOwnedUpgrades[ownedUpgradeIndex].amount >= minOwned) {
+                console.log("hardcoded +1")
+                allOwnedUpgrades[ownedUpgradeIndex+1] = {
+                    ...allOwnedUpgrades[ownedUpgradeIndex+1],
+                    isLocked: false
+                };
+            }
             setOwnedUpgrades(allOwnedUpgrades);
+        }
+
+        if (allOwnedUpgrades.every((el) => el.isLocked === false) && allOwnedUpgrades[3].amount >= upgrades[3].minOwned) {
+            setIsNextStageUnlocked(true);
         }
     };
 
@@ -112,14 +133,13 @@ const Game = () => {
             passive += ownedUpgrades[ownedUpgradeIndex].amount * upgrade.gain;
         })
         setPassiveTick(passive);
-    }, [upgrades,ownedUpgrades])
+    }, [upgrades, ownedUpgrades])
 
 
     useInterval(() => {
         setAmountClicked(amountClicked + passiveTick);
     }, 1000);
-
-
+    //TODO: perhaps decrease gameLoop time and divide by 10 ?
     useInterval(() => {
         let rand = Math.random();
         if (rand > 0.5) {
@@ -161,29 +181,32 @@ const Game = () => {
     }
 
     useEffect(() => {
+        setOwnedUpgrades(initOwnedUpgrades);
+        setIsNextStageUnlocked(false);
         getUpgradeData()
     }, [gameStage])
-    //TODO clear owned upgrades when transit trough stage
 
     return (
         <>
-        <button className={"SaveButton"} onClick={() => saveGame()}>Save Game!</button>
-        <section className="App">
+            <button className={"SaveButton"} onClick={() => saveGame()}>Save Game!</button>
+            <section className="App">
 
-            <div className="Columns" style={{backgroundImage: ' url(' + gameSettings.background + ')'}}>
-                <Clicker clicked={() => setAmountClicked(amountClicked + 1)} image={gameSettings.clicker}
-                         cutout={gameSettings.cutout}/>
+                <div className="Columns" style={{backgroundImage: ' url(' + gameSettings.background + ')'}}>
+                    <Clicker clicked={() => setAmountClicked(amountClicked + 1)} image={gameSettings.clicker}
+                             cutout={gameSettings.cutout}/>
 
-                <EvoPoints amount={amountClicked} passive={passiveTick}/>
+                    <EvoPoints amount={amountClicked} passive={passiveTick}/>
 
-                <Upgrades upgrades={upgrades} buyUpgrade={buyUpgrade} ownedUpgrades={ownedUpgrades} onStageClick={() => setGameStage(1)}/>
-            </div>
-            {isLuckTrigger ? <Lucky clicked={() => luckClick(isLucky)} lucky={isLucky}/> : <></>}
+                    <Upgrades upgrades={upgrades} buyUpgrade={buyUpgrade} ownedUpgrades={ownedUpgrades}
+                              isNextStageUnlocked={isNextStageUnlocked} onStageClick={() => setGameStage(1)}/>
+                </div>
 
-        </section>
+                {isLuckTrigger ? <Lucky clicked={() => luckClick(isLucky)} lucky={isLucky}/> : <></>}
+
+            </section>
         </>
 
     );
 }
-//TODO: button components for the save game(hide in footer) and SET STAGE EVENT (APPEAR WHEN CONDITION MET)
+//TODO: IS LUCKY SUCKED ATM
 export default Game;

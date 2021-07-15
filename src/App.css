@@ -153,6 +153,10 @@
     color: #282c34;
 }
 
+.disabledUpgrade{
+    display: none;
+}
+
 @keyframes fallingLucky
 {
     from {
