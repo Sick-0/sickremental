@@ -7,7 +7,7 @@ const Upgrade = (props) => {
             <div className="UpgradeText">
             <p>{props.title} (+{props.gain}/s)</p>
             <code>Amount: {props.level} giving {props.gain * props.level}/s</code> <br/>
-            <code>Price: {props.price}</code> <br/>
+            <code>Price: {props.price  * (props.level < 1 ? 0.5 : props.level)}</code> <br/>
             </div>
         </div>
     );

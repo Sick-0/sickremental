@@ -13,7 +13,7 @@ const Upgrades = (props) => {
                     key={upgrade.id}
                     id={upgrade.id}
                     gain={upgrade.gain}
-                    price={upgrade.price * (amount < 1 ? 0.5 : amount)}
+                    price={upgrade.price}
                     buyUpgrade={props.buyUpgrade}
                     fileName = {upgrade.filename}
                     title={upgrade.title}

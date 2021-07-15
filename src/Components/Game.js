@@ -59,7 +59,8 @@ const Game = () => {
 
 
     useEffect(() => {
-        if (window.localStorage.getItem(LSKEY + ".clicks")) {
+        //TODO: if no save load default starter data?
+        if (window.localStorage.getItem(LSKEY + ".clicks") && window.localStorage.getItem(LSKEY + ".upgrades") && window.localStorage.getItem(LSKEY + ".stage")) {
             setAmountClicked(parseInt(window.localStorage.getItem(LSKEY + ".clicks")));
             setOwnedUpgrades(JSON.parse(window.localStorage.getItem(LSKEY + ".upgrades")));
             setGameStage(parseInt(window.localStorage.getItem(LSKEY + ".stage")));
@@ -71,7 +72,7 @@ const Game = () => {
 
         let allOwnedUpgrades = [...ownedUpgrades];
 
-        let price = boughtUpgrade.price * allOwnedUpgrades[ownedUpgradeIndex].amount;
+        let price = boughtUpgrade.price * (allOwnedUpgrades[ownedUpgradeIndex].amount < 1 ? 0.5 : allOwnedUpgrades[ownedUpgradeIndex].amount);
 
         if (price <= amountClicked) {
             setAmountClicked(amountClicked - price);
@@ -162,6 +163,7 @@ const Game = () => {
     useEffect(() => {
         getUpgradeData()
     }, [gameStage])
+    //TODO clear owned upgrades when transit trough stage
 
     return (
         <>
