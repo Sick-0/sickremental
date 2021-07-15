@@ -41,7 +41,7 @@ const Clicker = (props) => {
 
 //TODO: pas x en y aan naar de actual location
     return (
-        <div className="Clicker" >
+        <div className="Clicker noselect" >
             {
                 animatedClicks ? animatedClicks.map(click => {
                     return <AnimatedClick x={click.startPosX} y={click.startPosY}/>

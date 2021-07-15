@@ -31,7 +31,7 @@ MULTICELL life collaborating to success.
 ### Early Ocean life II
 Plant and shell life.
 
-- *CLICKER* = Plant with snail?
+- *CLICKER* = Plant with snaillike shell?
 - *Upgrade 1* = Greens
 - *Upgrade 2* = Shells
 - *Upgrade 3* = Growth

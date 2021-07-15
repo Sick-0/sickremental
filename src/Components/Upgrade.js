@@ -2,7 +2,7 @@ import React from 'react';
 
 const Upgrade = (props) => {
     return (
-            <div className={"UpgradeBadge " + (props.isLocked ? "disabledUpgrade" : "")} key={props.id}
+            <div className={"UpgradeBadge noselect " + (props.isLocked ? "disabledUpgrade" : "")} key={props.id}
                  hidden={props.isLocked}>
                 <img alt={props.name} onClick={() => {
                     props.buyUpgrade({id: props.id, price: props.price, minOwned: props.neededForNext})

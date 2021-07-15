@@ -25,7 +25,7 @@ const Upgrades = (props) => {
             })}
 
             {props.isNextStageUnlocked ?
-                <div className="NextStageDiv">
+                <div className="NextStageDiv noselect">
                     <div className="UpgradeText" onClick={props.onStageClick}>
                         <code>Next stage here yo! </code>
                     </div>
